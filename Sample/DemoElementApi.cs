@@ -2,6 +2,7 @@
 // Sample showing the core Element-based API to create a dialog
 //
 using System;
+using System.Linq;
 using MonoTouch.Dialog;
 using MonoTouch.UIKit;
 
@@ -45,10 +46,24 @@ namespace Sample
 					}
 				},
 				new Section () {
-					new EntryElement ("Login", "Your login name", "miguel"),
-					new EntryElement ("Password", "Your password", "password", true),
+					new EntryElement ("Login", "Your login name", null)
+					{
+						EnablesReturnKeyAutomatically = true,
+						AlignEntryWithAllSections = true,
+					},
+					new EntryElement ("Password", "Your password", null, true)
+					{
+						EnablesReturnKeyAutomatically = true,
+						AlignEntryWithAllSections = true,
+					},
 					new DateElement ("Select Date", DateTime.Now),
 					new TimeElement ("Select Time", DateTime.Now),
+				},
+				new Section () {
+					new EntryElement ("Another Field", "Aligns with above fields", null)
+					{
+						AlignEntryWithAllSections = true,
+					},
 				},
 				new Section () {
 					CreateGeneralSection (),		
@@ -82,22 +97,14 @@ namespace Sample
 							new RadioElement ("True Blood"),
 						},
 						new Section ("Standard"){
-							new RadioElement ("Marimba"),
-							new RadioElement ("Alarm"),
-							new RadioElement ("Ascending"),
-							new RadioElement ("Bark"),
-							new RadioElement ("Xylophone")
+							from n in "Marimba,Alarm,Ascending,Bark,Xylophone".Split (',')
+								select (Element) new RadioElement (n)
 						}
 					},
 					new RootElement ("New Text Message", new RadioGroup (3)){
 						new Section (){
-							new RadioElement ("None"),
-							new RadioElement ("Tri-tone"),
-							new RadioElement ("Chime"),
-							new RadioElement ("Glass"),
-							new RadioElement ("Horn"),
-							new RadioElement ("Bell"),
-							new RadioElement ("Electronic")
+							from n in "None,Tri-tone,Chime,Glass,Horn,Bell,Eletronic".Split (',')
+								select (Element) new RadioElement (n)
 						}
 					},
 					new BooleanElement ("New Voice Mail", false),
