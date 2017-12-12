@@ -1,5 +1,5 @@
 *~
 *.userprefs
 *.pidb
-
+obj
 .DS_Store
